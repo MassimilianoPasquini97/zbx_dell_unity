@@ -1,0 +1,3295 @@
+zabbix_export:
+  version: '6.0'
+  date: '2023-09-18T07:06:02Z'
+  groups:
+    - uuid: 7c2cb727f85b492d88cd56e17127c64d
+      name: Templates/SAN
+  templates:
+    - uuid: c46a07e485a8408ea7d0ff3bb7ab3989
+      template: 'Dell Unity REST API'
+      name: 'Dell Unity REST API'
+      description: 'https://developer.dell.com/apis/3028/versions/5.2.0'
+      groups:
+        - name: Templates/SAN
+      items:
+        - uuid: 572ec7a668c643ba83041e3d34b3cfee
+          name: basicSystemInfo
+          type: HTTP_AGENT
+          key: basicSystemInfo
+          delay: 1d
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          url: 'https://{$UNITY.HOSTNAME}/api/types/basicSystemInfo/instances'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+        - uuid: b25b1b245a4d4e059dc13ad9f1f90b1d
+          name: 'API Version'
+          type: DEPENDENT
+          key: basicSystemInfo.apiVersion
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.apiVersion'
+          master_item:
+            key: basicSystemInfo
+        - uuid: f00d44b7f8424f528d0342b0f76b7c0a
+          name: 'API Earliest Version'
+          type: DEPENDENT
+          key: basicSystemInfo.earliestApiVersion
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.earliestApiVersion'
+          master_item:
+            key: basicSystemInfo
+        - uuid: 29ab116ffce94773b128da7584ce79e8
+          name: 'Model Name'
+          type: DEPENDENT
+          key: basicSystemInfo.model
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.model'
+          master_item:
+            key: basicSystemInfo
+        - uuid: 47f1f30d3eac4d86871ca48047e45948
+          name: Name
+          type: DEPENDENT
+          key: basicSystemInfo.name
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.name'
+          master_item:
+            key: basicSystemInfo
+        - uuid: 2f7f793d94624521b284bcf20c62a094
+          name: 'Software Full Version'
+          type: DEPENDENT
+          key: basicSystemInfo.softwareFullVersion
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.softwareFullVersion'
+          master_item:
+            key: basicSystemInfo
+        - uuid: 760268894dbc4957ab41bf1c742bcb69
+          name: 'Software Version'
+          type: DEPENDENT
+          key: basicSystemInfo.softwareVersion
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.softwareVersion'
+          master_item:
+            key: basicSystemInfo
+        - uuid: ae8410a778e74fb2961108e5c4bcce3e
+          name: battery
+          type: HTTP_AGENT
+          key: battery
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/battery/instances'
+          query_fields:
+            - name: fields
+              value: 'health,needsReplacement,slotNumber,name,manufacturer,model,firmwareVersion,emcPartNumber,emcSerialNumber,vendorPartNumber,vendorSerialNumber'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: f88feb8a38e3428d8f1f46fa67a2a65c
+          name: cifsServer
+          type: HTTP_AGENT
+          key: cifsServer
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/cifsServer/instances'
+          query_fields:
+            - name: fields
+              value: 'name,netbiosName,domain,lastUsedOrganizationalUnit,workgroup,health,nasServer,fileInterfaces'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: 6945622e0f5644c8b9cc37fa59396819
+          name: cifsShare
+          type: HTTP_AGENT
+          key: cifsShare
+          delay: 1d
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/cifsShare/instances'
+          query_fields:
+            - name: fields
+              value: 'type,filesystem,snap,isReadOnly,name,creationTime,modifiedTime'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: 512c8a13d4e949c9904f9c0112b779ce
+          name: disk
+          type: HTTP_AGENT
+          key: disk
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/disk/instances'
+          query_fields:
+            - name: fields
+              value: 'health,needsReplacement,slotNumber,estimatedEOL,busId,name,manufacturer,model,version,emcPartNumber,emcSerialNumber,tierType,rpm,currentSpeed,maxSpeed,isInUse,isFastCacheInUse,size,rawSize,vendorSize,wwn,diskTechnology,bank,bankSlotNumber,bankSlot'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: e74ff1f3312d41278ae0dd75f66bd98f
+          name: fan
+          type: HTTP_AGENT
+          key: fan
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/fan/instances'
+          query_fields:
+            - name: fields
+              value: 'health,needsReplacement,name,slotNumber,emcPartNumber,emcSerialNumber,manufacturer,model,vendorSerialNumber,vendorPartNumber'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: a89ce55a9a0e4ffb8e5f7ace1251c0ba
+          name: filesystem
+          type: HTTP_AGENT
+          key: filesystem
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/filesystem/instances'
+          query_fields:
+            - name: fields
+              value: 'health,name,type,sizeTotal,sizeUsed,isReadOnly,format'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: cabb52866cb3456dab897b2ea2c32f02
+          name: interfaces
+          type: HTTP_AGENT
+          key: interfaces
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/ethernetPort/instances'
+          query_fields:
+            - name: fields
+              value: 'health,needsReplacement,name,portNumber,speed,mtu,connectorType,bond,isLinkUp,macAddress,isRSSCapable,isRDMACapable'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: 08406b7f64f1418fbfc018ed58b7c61e
+          name: pool
+          type: HTTP_AGENT
+          key: pool
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/pool/instances'
+          query_fields:
+            - name: fields
+              value: 'health,name,raidType,sizeFree,sizeTotal,sizeUsed,type'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: afbabf38dbd046f9b5f5efd61dcae1bf
+          name: powerSupply
+          type: HTTP_AGENT
+          key: powerSupply
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/powerSupply/instances'
+          query_fields:
+            - name: fields
+              value: 'health,name,needsReplacement,slotNumber,manufacturer,model,firmwareVersion,emcSerialNumber,vendorPartNumber,vendorSerialNumber,emcPartNumber'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: ebe886628024473ab7140d6db614757c
+          name: storageProcessor
+          type: HTTP_AGENT
+          key: storageProcessor
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/storageProcessor/instances'
+          query_fields:
+            - name: fields
+              value: 'health,name,needsReplacement,modelName,memorySize,biosFirmwareRevision,manufacturer,model,emcSerialNumber,vendorPartNumber,vendorSerialNumber,emcPartNumber'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: 13debdec2feb417ca40bf4578cc9b4c4
+          name: system
+          type: HTTP_AGENT
+          key: system
+          delay: 1h
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          authtype: BASIC
+          username: '{$UNITY.USERNAME}'
+          password: '{$UNITY.PASSWORD}'
+          url: 'https://{$UNITY.HOSTNAME}/api/types/system/instances'
+          query_fields:
+            - name: fields
+              value: 'health,name,serialNumber,internalModel,platform,currentPower'
+          headers:
+            - name: Accept
+              value: application/json
+            - name: Content-Type
+              value: application/json
+            - name: X-EMC-REST-CLIENT
+              value: 'true'
+        - uuid: bccf3734ce2b4f9abd137fc76713dc11
+          name: 'System Current Power Consumption'
+          type: DEPENDENT
+          key: system.currentPower
+          delay: '0'
+          history: 7d
+          units: W
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.currentPower'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+        - uuid: 26e610e0612942be9e11af4052ae6083
+          name: 'System Health'
+          type: DEPENDENT
+          key: system.health
+          delay: '0'
+          history: 7d
+          valuemap:
+            name: Health
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.health.value'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+          triggers:
+            - uuid: fce53c22e9ea4089b2d4d0be8c41a0dc
+              expression: 'last(/Dell Unity REST API/system.health)=25'
+              name: 'System Health: Critical Issue'
+              priority: HIGH
+            - uuid: cdeba0aa24ac48d385a06329c3f17427
+              expression: 'last(/Dell Unity REST API/system.health)=10'
+              name: 'System Health: Degraded'
+              priority: WARNING
+            - uuid: b0b9a4452ef848cb8e7f9bca51566ac4
+              expression: 'last(/Dell Unity REST API/system.health)=20'
+              name: 'System Health: Major Issue'
+              priority: AVERAGE
+            - uuid: 53f9fe0827f14dfe920258a59f286c6f
+              expression: 'last(/Dell Unity REST API/system.health)=15'
+              name: 'System Health: Minor Issue'
+              priority: WARNING
+            - uuid: 03147134cbbb4a91b77d5e071885f5a9
+              expression: 'last(/Dell Unity REST API/system.health)=7'
+              name: 'System Health: Minor Warning'
+              priority: WARNING
+            - uuid: e3240d1fd51c419cb6c5a68e191a3d9b
+              expression: 'last(/Dell Unity REST API/system.health)=30'
+              name: 'System Health: Non Recoverable Issue'
+              priority: HIGH
+        - uuid: 83cefce0a01a46329049900478b49422
+          name: 'System Internal Model'
+          type: DEPENDENT
+          key: system.internalModel
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.internalModel'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+        - uuid: d5c35d37dead471f88e138c0478387df
+          name: 'System Name'
+          type: DEPENDENT
+          key: system.name
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.name'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+        - uuid: 755fe89f045e4e6a80c95a0a83aea083
+          name: 'System Platform'
+          type: DEPENDENT
+          key: system.platform
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.platform'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+        - uuid: e3a5dff2108e481f95b091d2092e7c1b
+          name: 'System Serial Number'
+          type: DEPENDENT
+          key: system.serialNumber
+          delay: '0'
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.entries[0].content.serialNumber'
+          master_item:
+            key: system
+          tags:
+            - tag: component
+              value: system
+      discovery_rules:
+        - uuid: b85044ac14334154aedbd37dae063462
+          name: Batteries
+          type: DEPENDENT
+          key: battery.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: a0c1de45e1a841e1aa6e7e3ef84a6315
+              name: 'Battery {#NAME} EMC PartNumber'
+              type: DEPENDENT
+              key: 'battery.emcPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: 2f985266e6db4a258faada690a6bc75f
+              name: 'Battery {#NAME} EMC Serial Number'
+              type: DEPENDENT
+              key: 'battery.emcSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+              trigger_prototypes:
+                - uuid: 666a3c826164476396b39ba85536dc21
+                  expression: 'change(/Dell Unity REST API/battery.emcSerialNumber[{#ID}])=1'
+                  name: 'Battery {#NAME} EMC Serial Number Changed'
+                  priority: INFO
+            - uuid: 7beeaab9a2a342ed83328c576904d7af
+              name: 'Battery {#NAME} Firmware Version'
+              type: DEPENDENT
+              key: 'battery.firmwareVersion[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.firmwareVersion'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+              trigger_prototypes:
+                - uuid: b8b6d2bafc274eb9bffc45a3eea95499
+                  expression: 'change(/Dell Unity REST API/battery.firmwareVersion[{#ID}])=1'
+                  name: 'Battery {#NAME} Firmware Version Changed'
+                  priority: INFO
+            - uuid: ccd20d1877164ef49ec4f98b23314dfe
+              name: 'Battery {#NAME} Health'
+              type: DEPENDENT
+              key: 'battery.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+              trigger_prototypes:
+                - uuid: 5a8901aa90f840bdbf2638b53baa7fcd
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=25'
+                  name: 'Battery {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: 688a81ff658b4ba192770a27cd46475c
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=10'
+                  name: 'Battery {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: eece977f0796494ba243710094d8f226
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=20'
+                  name: 'Battery {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 5fb59ae210cb4dd2b5e15b6d48d6e109
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=15'
+                  name: 'Battery {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 5e2cf6b1d63a4794bddd054f0a5007a5
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=7'
+                  name: 'Battery {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: 70b536f7f78a45bb84000cc685a48c7b
+                  expression: 'last(/Dell Unity REST API/battery.health[{#ID}])=30'
+                  name: 'Battery {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: ef6534783f88431ebb721292f36bc5a6
+              name: 'Battery {#NAME} ID'
+              type: DEPENDENT
+              key: 'battery.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: 9a6922fc927e402d912523651d4c0408
+              name: 'Battery {#NAME} Manufacturer'
+              type: DEPENDENT
+              key: 'battery.manufacturer[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.manufacturer'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: 26fb5a93f5b14743b6453a847fef6761
+              name: 'Battery {#NAME} Model'
+              type: DEPENDENT
+              key: 'battery.model[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.model'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: 8cac390eddec423fb81163af14f05778
+              name: 'Battery {#NAME} Name'
+              type: DEPENDENT
+              key: 'battery.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: c3dc33d8458748dba37ebc0d4fd252c1
+              name: 'Battery {#NAME} Need Replacement'
+              type: DEPENDENT
+              key: 'battery.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+              trigger_prototypes:
+                - uuid: e227f97a1d2244459cfc3c0595fb5916
+                  expression: 'last(/Dell Unity REST API/battery.needsReplacement[{#ID}])="true"'
+                  name: 'Battery {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: 0e12cfc7336d4a719d1cb0421f86870e
+              name: 'Battery {#NAME} Slot Number'
+              type: DEPENDENT
+              key: 'battery.slotNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: 30d
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.slotNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: a4392d3172334b00988167594f0176dd
+              name: 'Battery {#NAME} Vendor Part Number'
+              type: DEPENDENT
+              key: 'battery.vendorPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+            - uuid: 6a647b0695954171a8e9fb99928266cf
+              name: 'Battery {#NAME} Vendor Serial Number'
+              type: DEPENDENT
+              key: 'battery.vendorSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: battery
+              tags:
+                - tag: component
+                  value: battery
+              trigger_prototypes:
+                - uuid: 919e12ae243d4895a2bc21578277b0ba
+                  expression: 'change(/Dell Unity REST API/battery.vendorSerialNumber[{#ID}])=1'
+                  name: 'Battery {#NAME} Vendor Serial Number Changed'
+                  priority: INFO
+          master_item:
+            key: battery
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 365eb58fe6e245eeb965e70a58152be5
+          name: 'CIFS Server'
+          type: DEPENDENT
+          key: cifsServer.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: a9887221683e4cbe9d947e32e66caa9e
+              name: 'CIFS Server {#NAME} Domain'
+              type: DEPENDENT
+              key: 'cifsServer.domain[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.domain'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsServer
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: 7b35ed8677694c89a1ada58e646282bb
+              name: 'CIFS Server {#NAME} Health'
+              type: DEPENDENT
+              key: 'cifsServer.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: cifsServer
+              tags:
+                - tag: application
+                  value: cifs
+              trigger_prototypes:
+                - uuid: 96f52730932441c5be591191eb5ddff3
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=25'
+                  name: 'CIFS Server {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: 28a4df4e32f349e88884068dfaa2e2f2
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=10'
+                  name: 'CIFS Server {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: 3c4f69d350b9446581b813f8149abdbc
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=20'
+                  name: 'CIFS Server {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 2e534331cf0b460a9701b5d8a7af108a
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=15'
+                  name: 'CIFS Server {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 22873f07110140d2a6cf1fe68e903518
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=7'
+                  name: 'CIFS Server {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: 1426181eb4554c448429765f2aba2868
+                  expression: 'last(/Dell Unity REST API/cifsServer.health[{#ID}])=30'
+                  name: 'CIFS Server {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: c766ae75f5dc48d8a4476bcdb9ae74e2
+              name: 'CIFS Server {#NAME} ID'
+              type: DEPENDENT
+              key: 'cifsServer.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsServer
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: 500c02633236404f9e00152a1bbeefae
+              name: 'CIFS Server {#NAME} Last Used Organizational Unit'
+              type: DEPENDENT
+              key: 'cifsServer.lastUsedOrganizationalUnit[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.lastUsedOrganizationalUnit'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsServer
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: 2e88810bce4b437b89cf817b9367b8ef
+              name: 'CIFS Server {#NAME} Name'
+              type: DEPENDENT
+              key: 'cifsServer.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsServer
+              tags:
+                - tag: application
+                  value: cifs
+          master_item:
+            key: cifsServer
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 8add3a0c67db4235ad7f446938cf65ee
+          name: 'CIFS Share'
+          type: DEPENDENT
+          key: cifsShare.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 9ae41cb9261b4c0e985fa9a7aed2c39d
+              name: 'CIFS Share {#NAME} Creation Time'
+              type: DEPENDENT
+              key: 'cifsShare.creationTime[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.creationTime'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsShare
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: fa3563e3fa7d45eaa290b64f5368f9ca
+              name: 'CIFS Share {#NAME} ID'
+              type: DEPENDENT
+              key: 'cifsShare.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsShare
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: 09f2dc6ec5754ff6be08b0a7d11b03c6
+              name: 'CIFS Share {#NAME} Modified Time'
+              type: DEPENDENT
+              key: 'cifsShare.modifiedTime[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.modifiedTime'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsShare
+              tags:
+                - tag: application
+                  value: cifs
+              trigger_prototypes:
+                - uuid: 8c42036ba1cd45ba8d644491ddb9ff46
+                  expression: 'change(/Dell Unity REST API/cifsShare.modifiedTime[{#ID}])=1'
+                  name: 'CIFS Share {#NAME} Modified'
+                  priority: INFO
+            - uuid: 9ac0ca3ff23d4de697a0ab56a6847cbe
+              name: 'CIFS Share {#NAME} Name'
+              type: DEPENDENT
+              key: 'cifsShare.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsShare
+              tags:
+                - tag: application
+                  value: cifs
+            - uuid: c22d5199e9ad45f68eced0db4100669e
+              name: 'CIFS Share {#NAME} Type'
+              type: DEPENDENT
+              key: 'cifsShare.type[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: 30d
+              valuemap:
+                name: 'CIFS share type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.type'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: cifsShare
+              tags:
+                - tag: application
+                  value: cifs
+          master_item:
+            key: cifsShare
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: b54d9f3cfc1d431b80a5e9cd7afdcfcf
+          name: Disks
+          type: DEPENDENT
+          key: disk.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 7b64f9432be2473ea543d35d52f4ba80
+              name: 'Disk {#NAME} Bus Id'
+              type: DEPENDENT
+              key: 'disk.busId[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.busId'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: de1fbd24bddb4244862d3ce713363821
+              name: 'Disk {#NAME} Current Speed'
+              type: DEPENDENT
+              key: 'disk.currentSpeed[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.currentSpeed'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 85eb0ce805b54839b5d0b44ad9629683
+              name: 'Disk {#NAME} Technology'
+              type: DEPENDENT
+              key: 'disk.diskTechnology[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: 30d
+              valuemap:
+                name: 'Disk Technology'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.diskTechnology'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: bd49d56985904353be751957b0e0ce8d
+              name: 'Disk {#NAME} EMC Part Number'
+              type: DEPENDENT
+              key: 'disk.emcPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 8623d089d6944b999749fd36011c3b81
+              name: 'Disk {#NAME} EMC Serial Number'
+              type: DEPENDENT
+              key: 'disk.emcSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+              trigger_prototypes:
+                - uuid: bc888b4a624c48bb82f2d5935dd582e6
+                  expression: 'change(/Dell Unity REST API/disk.emcSerialNumber[{#ID}])=1'
+                  name: 'Disk {#NAME} EMC Serial Number Changed'
+                  priority: INFO
+            - uuid: 4174756440dd4487b13670eb14735f96
+              name: 'Disk {#NAME} Estimated EOL'
+              type: DEPENDENT
+              key: 'disk.estimatedEOL[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.estimatedEOL'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 13cd584697af47b2861dc017a4d11ebe
+              name: 'Disk {#NAME} Health'
+              type: DEPENDENT
+              key: 'disk.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+              trigger_prototypes:
+                - uuid: c4c4b04a58f6463ca70a14a70f567f6a
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=25'
+                  name: 'Disk {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: b3f1ee955b7a4de0af59e0fcfb80b84b
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=10'
+                  name: 'Disk {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: c2472dcb84a04988afaf141dab57fc72
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=20'
+                  name: 'Disk {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 1f65fdf2471f4942940d2572defec694
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=15'
+                  name: 'Disk {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 93b0a89b2d5a4fd1b61fb1522aa68813
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=7'
+                  name: 'Disk {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: a7ec29e9b4844b16ac520cbf33406873
+                  expression: 'last(/Dell Unity REST API/disk.health[{#ID}])=30'
+                  name: 'Disk {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: 4dce090ebebb44c5b11f6a871b643f42
+              name: 'Disk {#NAME} ID'
+              type: DEPENDENT
+              key: 'disk.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 3cd7061a65104b05b731525c6938b88d
+              name: 'Disk {#NAME} Is Fast Cache In Use'
+              type: DEPENDENT
+              key: 'disk.isFastCacheInUse[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.isFastCacheInUse'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 1830d9c7d02a436f9c2fd4666889d69a
+              name: 'Disk {#NAME} Is In Use'
+              type: DEPENDENT
+              key: 'disk.isInUse[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.isInUse'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 954ea80c42884af4a1f82410e20da3ba
+              name: 'Disk {#NAME} Manufacturer'
+              type: DEPENDENT
+              key: 'disk.manufacturer[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.manufacturer'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 51d29ec792e34929ba8646f4cf25c7d2
+              name: 'Disk {#NAME} Max Speed'
+              type: DEPENDENT
+              key: 'disk.maxSpeed[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.currentSpeed'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 917bb0e85ba5400e8d9b3c6ce290a6f7
+              name: 'Disk {#NAME} Model'
+              type: DEPENDENT
+              key: 'disk.model[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.model'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 128b146d13534c84a123f25bf13e8900
+              name: 'Disk {#NAME} Name'
+              type: DEPENDENT
+              key: 'disk.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 41cf9fd01e09415da5ce1851ba1b1f01
+              name: 'Disk {#NAME} Needs Replacement'
+              type: DEPENDENT
+              key: 'disk.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+              trigger_prototypes:
+                - uuid: a5e59fbe919949f895b1ad1aae547c68
+                  expression: 'last(/Dell Unity REST API/disk.needsReplacement[{#ID}])="true"'
+                  name: 'Disk {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: 3bfefd52da034b2384df1178b450b09b
+              name: 'Disk {#NAME} Raw Size'
+              type: DEPENDENT
+              key: 'disk.rawSize[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.rawSize'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 07a22f90c6d948f798373d3162c52902
+              name: 'Disk {#NAME} RPM'
+              type: DEPENDENT
+              key: 'disk.rpm[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: rpm
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.rpm'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 331f2b99564b443a80dee076f8837cf9
+              name: 'Disk {#NAME} Size'
+              type: DEPENDENT
+              key: 'disk.size[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.size'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 6f23dc9b9dab44c5864f0c6115fbf751
+              name: 'Disk {#NAME} Slot Number'
+              type: DEPENDENT
+              key: 'disk.slotNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.slotNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 12c1ab5aa2324c31ad4f29a60895d204
+              name: 'Disk {#NAME} Tier Type'
+              type: DEPENDENT
+              key: 'disk.tierType[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: 30d
+              valuemap:
+                name: 'Disk Tier Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.tierType'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: 0d0cf0de234f4760b356dfe15c653f5a
+              name: 'Disk {#NAME} Vendor Size'
+              type: DEPENDENT
+              key: 'disk.vendorSize[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorSize'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: f17a391dea494db3be5912a5542c3bd0
+              name: 'Disk {#NAME} Version'
+              type: DEPENDENT
+              key: 'disk.version[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.version'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+            - uuid: f86842f06e9342bd98990171e3b3d316
+              name: 'Disk {#NAME} wwn'
+              type: DEPENDENT
+              key: 'disk.wwn[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.wwn'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: disk
+              tags:
+                - tag: component
+                  value: disk
+          master_item:
+            key: disk
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 1e720c2a04174f3f85c4e568f94a21ae
+          name: Fan
+          type: DEPENDENT
+          key: fan.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: e2cce2ae477f4b95810a9247de451a78
+              name: 'Fan {#NAME} EMC Part Number'
+              type: DEPENDENT
+              key: 'fan.emcPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+            - uuid: a69d60f01380486a8f4694174eb039fd
+              name: 'Fan {#NAME} Health'
+              type: DEPENDENT
+              key: 'fan.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+              trigger_prototypes:
+                - uuid: eb3aeddcf3f348f691653b976b7681e4
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=25'
+                  name: 'Fan {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: 62c303c1f3944e30881316f8011dba3c
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=10'
+                  name: 'Fan {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: 7408b2f86f0d4cbbb836a9e5997c60b6
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=20'
+                  name: 'Fan {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 91683f13077b419c8333ffdeb7a1f7f6
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=20'
+                  name: 'Fan {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 0ab86654e0b3401090fc0c1228d7a084
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=7'
+                  name: 'Fan {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: 14c32a9d88a14af591e87a2275ed5128
+                  expression: 'last(/Dell Unity REST API/fan.health[{#ID}])=30'
+                  name: 'Fan {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: f9326e4625bf4e7693826b743f41e8de
+              name: 'Fan {#NAME} ID'
+              type: DEPENDENT
+              key: 'fan.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+            - uuid: 53482826b7904711bd36006404316d1f
+              name: 'Fan {#NAME} Name'
+              type: DEPENDENT
+              key: 'fan.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+            - uuid: d23749a926d248208fecece7ce9809b4
+              name: 'Fan {#NAME} Needs Replacement'
+              type: DEPENDENT
+              key: 'fan.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+              trigger_prototypes:
+                - uuid: 950b5990e9c64bca88126e4d6fe3a11d
+                  expression: 'last(/Dell Unity REST API/fan.needsReplacement[{#ID}])="true"'
+                  name: 'Fan {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: 2648115209294637b6bb928c0b512371
+              name: 'Fan {#NAME} Slot Number'
+              type: DEPENDENT
+              key: 'fan.slotNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.slotNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: fan
+              tags:
+                - tag: component
+                  value: fan
+          master_item:
+            key: fan
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: ccd3e4939824498dac14593199ab3535
+          name: Filesystem
+          type: DEPENDENT
+          key: filesystem.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: ca4a7256fdfb4ed1a2d8e0a7d64e322e
+              name: 'Filesystem {#NAME} Format'
+              type: DEPENDENT
+              key: 'filesystem.format[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: 'Filesystem Format'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.format'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: 5d35743204854bab9362a8f99be1bf26
+              name: 'Filesystem {#NAME} Health'
+              type: DEPENDENT
+              key: 'filesystem.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+              trigger_prototypes:
+                - uuid: 5dbc3163b38d46e98800a00d274f67a1
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=25'
+                  name: 'Filesystem {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: 0185c28b204547e6aa4267bb03db18aa
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=10'
+                  name: 'Filesystem {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: 2237a0e873764daf813d55ac78e1587a
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=20'
+                  name: 'Filesystem {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: c91219d7d590418db3aa7b4e3c340cd8
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=15'
+                  name: 'Filesystem {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 7909c2acfb834113a9ab466359ab5757
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=7'
+                  name: 'Filesystem {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: c5bc1adc068c4716a32b7f84cd5076fd
+                  expression: 'last(/Dell Unity REST API/filesystem.health[{#ID}])=30'
+                  name: 'Filesystem {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: 93cc97d1cf2347a8aad7428998baaa65
+              name: 'Filesystem {#NAME} ID'
+              type: DEPENDENT
+              key: 'filesystem.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: 2da4797628454eb99caad7422744a29d
+              name: 'Filesystem {#NAME} Name'
+              type: DEPENDENT
+              key: 'filesystem.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: 6a2791ac59a945bdb97da8855e3dfe40
+              name: 'Filesystem {#NAME} Free Size %'
+              type: CALCULATED
+              key: 'filesystem.size.free.perc[{#ID}]'
+              delay: 1h
+              history: 7d
+              units: '%'
+              params: '100-(last( //filesystem.size.used[{#ID}])*100)/last(//filesystem.size.total[{#ID}])'
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: 655ddc43606a4368a17416a54dbbe33c
+              name: 'Filesystem {#NAME} Free Size'
+              type: CALCULATED
+              key: 'filesystem.size.free[{#ID}]'
+              delay: 1h
+              history: 7d
+              units: B
+              params: 'last(//filesystem.size.total[{#ID}])-last( //filesystem.size.used[{#ID}])'
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: a6d44137892549b1a8e8a46a1ce7e4ab
+              name: 'Filesystem {#NAME} Total Size'
+              type: DEPENDENT
+              key: 'filesystem.size.total[{#ID}]'
+              delay: '0'
+              history: 7d
+              units: B
+              valuemap:
+                name: 'Filesystem Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.sizeTotal'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: f3a259c62fa248e2b0a99c183b289da5
+              name: 'Filesystem {#NAME} Used Size %'
+              type: CALCULATED
+              key: 'filesystem.size.used.perc[{#ID}]'
+              delay: 1h
+              history: 7d
+              units: '%'
+              params: '(last( //filesystem.size.used[{#ID}])*100)/last(//filesystem.size.total[{#ID}])'
+              tags:
+                - tag: component
+                  value: filesystem
+              trigger_prototypes:
+                - uuid: 920c706230f24c2ab83dd1e15883a470
+                  expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.AVERAGE}'
+                  name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.AVERAGE}% Usage'
+                  priority: AVERAGE
+                  dependencies:
+                    - name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.HIGH}% Usage'
+                      expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.HIGH}'
+                - uuid: 86fd5e54a0cc4175ba5d5efc4d950e78
+                  expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.HIGH}'
+                  name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.HIGH}% Usage'
+                  priority: HIGH
+                - uuid: 4568acaa643a4b7c8b272d133ed0ef9a
+                  expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.WARNING}'
+                  name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.WARNING}% Usage'
+                  priority: WARNING
+                  dependencies:
+                    - name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.AVERAGE}% Usage'
+                      expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.AVERAGE}'
+                    - name: 'Filesystem {#NAME} Reached {$UNITY.FILESYSTEM.USAGE.HIGH}% Usage'
+                      expression: 'avg(/Dell Unity REST API/filesystem.size.used.perc[{#ID}],1d)>{$UNITY.FILESYSTEM.USAGE.HIGH}'
+            - uuid: 75549ab4f2f9422c94221f300b856460
+              name: 'Filesystem {#NAME} Used Size'
+              type: DEPENDENT
+              key: 'filesystem.size.used[{#ID}]'
+              delay: '0'
+              history: 7d
+              units: B
+              valuemap:
+                name: 'Filesystem Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.sizeUsed'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+            - uuid: 5f8c5498352a475c99d2e71e7d759e7c
+              name: 'Filesystem {#NAME} Type'
+              type: DEPENDENT
+              key: 'filesystem.type[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: 'Filesystem Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.type'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: filesystem
+              tags:
+                - tag: component
+                  value: filesystem
+          master_item:
+            key: filesystem
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: a3e79614a27945fd8de107204ba4a482
+          name: Interfaces
+          type: DEPENDENT
+          key: interfaces.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 9a0da761fab5461381d61b4645a0d72d
+              name: 'Interface {#NAME} Bond'
+              type: DEPENDENT
+              key: 'interfaces.bond[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.bond'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: 00beeb2e70b844e29396f7166b3a051a
+              name: 'Interface {#NAME} Connector Type'
+              type: DEPENDENT
+              key: 'interfaces.connectorType[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: 'Interface Connector Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.connectorType'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: cdeae0c9c462481bba7970e0bb3c3acb
+              name: 'Interface {#NAME} Health'
+              type: DEPENDENT
+              key: 'interfaces.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: 90d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+              trigger_prototypes:
+                - uuid: 78f34cdcfbe84193838f17f339d9eb33
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=25'
+                  name: 'Interface {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: b58012f8f8cc415c976ab6aa45602dc7
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=10'
+                  name: 'Interface {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: 6de45cf997ed4b49a0a78180b7f71188
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=20'
+                  name: 'Interface {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: e7314e85f34b4bc9b86861b5e42ade71
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=15'
+                  name: 'Interface {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: b8e8bea857c84001a0578d875b645151
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=7'
+                  name: 'Interface {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: c0766897f93f4778ae18601280df1177
+                  expression: 'last(/Dell Unity REST API/interfaces.health[{#ID}])=30'
+                  name: 'Interface {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: ae57fe71661f43108e91d010e59ff610
+              name: 'Interface {#NAME} ID'
+              type: DEPENDENT
+              key: 'interfaces.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: ef5712bb3eec4e009f88dffcaa2d8389
+              name: 'Interface {#NAME} Is Link Up'
+              type: DEPENDENT
+              key: 'interfaces.isLinkUp[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.isLinkUp'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+              trigger_prototypes:
+                - uuid: b35530f6d39b4482a85555973789b09d
+                  expression: 'change(/Dell Unity REST API/interfaces.isLinkUp[{#ID}])=1'
+                  name: 'Interface {#NAME} Link Status Changed'
+                  priority: INFO
+            - uuid: 775c71390b604eab96624cbc3d630da8
+              name: 'Interface {#NAME} Is RDMA Capable'
+              type: DEPENDENT
+              key: 'interfaces.isRDMACapable[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.isRDMACapable'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: 3dc0895316534c34b2d33537dbc30b14
+              name: 'Interface {#NAME} Is RSS Capable'
+              type: DEPENDENT
+              key: 'interfaces.isRSSCapable[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.isRSSCapable'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: 6607e0d1802a4da2874bbac58d41f1d1
+              name: 'Interface {#NAME} Mac Address'
+              type: DEPENDENT
+              key: 'interfaces.macAddress[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.macAddress'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: 4729f31144a74b5b8cfaaa20d10187ad
+              name: 'Interface {#NAME} mtu'
+              type: DEPENDENT
+              key: 'interfaces.mtu[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.mtu'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: 1a52417f1f2b42a48d09c7a2a7e38335
+              name: 'Interface {#NAME} Name'
+              type: DEPENDENT
+              key: 'interfaces.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+            - uuid: d9deb5751a7f4e9a8ffe7fa8b27b1c12
+              name: 'Interface {#NAME} Need Replacement'
+              type: DEPENDENT
+              key: 'interfaces.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+              trigger_prototypes:
+                - uuid: 43cad7a21a274033a5acdfd99aa26a7e
+                  expression: 'last(/Dell Unity REST API/interfaces.needsReplacement[{#ID}])="true"'
+                  name: 'Interface {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: ba1c483f1c3d4223b9d4b2b3369cbf5e
+              name: 'Interface {#NAME} Port Number'
+              type: DEPENDENT
+              key: 'interfaces.portNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.portNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: interfaces
+              tags:
+                - tag: component
+                  value: interface
+          master_item:
+            key: interfaces
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 586d853d476241e1a82438794723c5cf
+          name: Pool
+          type: DEPENDENT
+          key: pool.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 552b808cfcca4babac7a579d75cf3ecc
+              name: 'Pool {#NAME} Health'
+              type: DEPENDENT
+              key: 'pool.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: B
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+              trigger_prototypes:
+                - uuid: a1260107e34f4a6ab45d6cfc36ed644d
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=25'
+                  name: 'Filesystem {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: eab6bc15f477493c9c2cf8aeba079022
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=10'
+                  name: 'Filesystem {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: 9ba8c4b6364549728b88062f4ad04949
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=20'
+                  name: 'Filesystem {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: b3907265fb5f420eb2bcf43e2103bf85
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=15'
+                  name: 'Filesystem {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 129e71ed054e4f388e4e4ada84670fd9
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=7'
+                  name: 'Filesystem {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: 297433ff4d924de6b4a1c3d7fea57639
+                  expression: 'last(/Dell Unity REST API/pool.health[{#ID}])=30'
+                  name: 'Filesystem {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: 48c543d3086a4ee29b7bf690850df362
+              name: 'Pool {#NAME} ID'
+              type: DEPENDENT
+              key: 'pool.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: 828ab4e43f9c45e0a2603b6912d886ce
+              name: 'Pool {#NAME} Name'
+              type: DEPENDENT
+              key: 'pool.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: 42b3b44478f0440bbf37d106db1cc11a
+              name: 'Pool {#NAME} Raid Type'
+              type: DEPENDENT
+              key: 'pool.raid.type[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: 'Pool Raid Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.raidType'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: d24a00b9fdc34cf89373646230bdb603
+              name: 'Pool {#NAME} Free Size %'
+              type: CALCULATED
+              key: 'pool.size.free.perc[{#ID}]'
+              delay: 1h
+              history: 7d
+              units: '%'
+              params: '(last(//pool.size.free[{#ID}])*100)/last(//pool.size.total[{#ID}])'
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: f829780bad184f5491b256c23184d7b5
+              name: 'Pool {#NAME} Free Size'
+              type: DEPENDENT
+              key: 'pool.size.free[{#ID}]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.sizeFree'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: 9c9a8019473949f1900fa8ecf5123da9
+              name: 'Pool {#NAME} Total Size'
+              type: DEPENDENT
+              key: 'pool.size.total[{#ID}]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.sizeTotal'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: 2c123b5230b64f61952d40b9c712ce50
+              name: 'Pool {#NAME} Used Size %'
+              type: CALCULATED
+              key: 'pool.size.used.perc[{#ID}]'
+              delay: 1h
+              history: 7d
+              units: '%'
+              params: '(last(//pool.size.used[{#ID}])*100)/last(//pool.size.total[{#ID}])'
+              tags:
+                - tag: component
+                  value: pool
+              trigger_prototypes:
+                - uuid: 8dcab9bbb40545b79d364c552037bab9
+                  expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.AVERAGE}'
+                  name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.AVERAGE}% Usage'
+                  priority: AVERAGE
+                  dependencies:
+                    - name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.HIGH}% Usage'
+                      expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.HIGH}'
+                - uuid: d1d4b0fb127a47ca9e07e2d9f3ec19f9
+                  expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.HIGH}'
+                  name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.HIGH}% Usage'
+                  priority: HIGH
+                - uuid: e57cb0612bf147e5a3038186d5c61b39
+                  expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.WARNING}'
+                  name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.WARNING}% Usage'
+                  priority: WARNING
+                  dependencies:
+                    - name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.AVERAGE}% Usage'
+                      expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.AVERAGE}'
+                    - name: 'Poll {#NAME} Reached {$UNITY.POOL.USAGE.HIGH}% Usage'
+                      expression: 'avg(/Dell Unity REST API/pool.size.used.perc[{#ID}],1d)>{$UNITY.POOL.USAGE.HIGH}'
+            - uuid: 404d9c7b3d534fa3bfda64dd79e9d85f
+              name: 'Pool {#NAME} Used Size'
+              type: DEPENDENT
+              key: 'pool.size.used[{#ID}]'
+              delay: '0'
+              history: 7d
+              units: B
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.sizeUsed'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+            - uuid: ff87c0c960d745e481c7d7ae79522bde
+              name: 'Pool {#NAME} Type'
+              type: DEPENDENT
+              key: 'pool.type[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              units: B
+              valuemap:
+                name: 'Pool Type'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.type'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: pool
+              tags:
+                - tag: component
+                  value: pool
+          master_item:
+            key: pool
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 7cccf16d56764a12b5c6e11899f3271c
+          name: 'Power Supply'
+          type: DEPENDENT
+          key: powerSupply.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 5003d7d6e2b3482a9081986448f315cb
+              name: 'Power Supply {#NAME} EMC Part Number'
+              type: DEPENDENT
+              key: 'powerSupply.emcPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: 0efdafba4fd940139470a8808a4bc52a
+              name: 'Power Supply {#NAME} EMC Serial Number'
+              type: DEPENDENT
+              key: 'powerSupply.emcSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+              trigger_prototypes:
+                - uuid: 9d1e5565324e4bc9aa511e9e8df09a29
+                  expression: 'last(/Dell Unity REST API/powerSupply.emcSerialNumber[{#ID}])=1'
+                  name: 'Power Supply {#NAME} EMC Serial Number Changed'
+                  priority: INFO
+            - uuid: a1ba1d5318a54c90b55402d6bac22350
+              name: 'Power Supply {#NAME} Firmware Version'
+              type: DEPENDENT
+              key: 'powerSupply.firmwareVersion[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.firmwareVersion'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+              trigger_prototypes:
+                - uuid: 29e9addf55bc4e12aa3eddbba3320047
+                  expression: 'change(/Dell Unity REST API/powerSupply.firmwareVersion[{#ID}])=1'
+                  name: 'Power Supply {#NAME} Firmware Version Changed'
+                  priority: INFO
+            - uuid: 309d5b5a3cd7414c94ba1a63f12b33d6
+              name: 'Power Supply {#NAME} Health'
+              type: DEPENDENT
+              key: 'powerSupply.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+              trigger_prototypes:
+                - uuid: 6ed16caacf1a4f988cc4bdae6253d7bb
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=25'
+                  name: 'Power Supply {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: bdc5be6bc5214be49f59de4e6f9a9e52
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=10'
+                  name: 'Power Supply {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: ebc3f90ea3f64e55bd5446a69d57008e
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=20'
+                  name: 'Power Supply {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 0e6c55bb179c4e61ac951aa14e984411
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=15'
+                  name: 'Power Supply {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 4571cd76152a4c53a09bca0b92fcd0fb
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=7'
+                  name: 'Power Supply {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: a8c13e9f3fce42f38d5c98594d3e2132
+                  expression: 'last(/Dell Unity REST API/powerSupply.health[{#ID}])=30'
+                  name: 'Power Supply {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: 1cb8bab135ad4393805c1fb1eb6db067
+              name: 'Power Supply {#NAME} ID'
+              type: DEPENDENT
+              key: 'powerSupply.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: 4079751720af4586b143a927ea975499
+              name: 'Power Supply {#NAME} Manufacturer'
+              type: DEPENDENT
+              key: 'powerSupply.manufacturer[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.manufacturer'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: ddb23ec2ee074208bb039e961ed6e9f0
+              name: 'Power Supply {#NAME} Model'
+              type: DEPENDENT
+              key: 'powerSupply.model[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.model'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: 3be9c4e69bbc4fbbb18a13d52a0df3f3
+              name: 'Power Supply {#NAME} Name'
+              type: DEPENDENT
+              key: 'powerSupply.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: c8356735659b4169ab7c5320be9ce27b
+              name: 'Power Supply {#NAME} Need Replacement'
+              type: DEPENDENT
+              key: 'powerSupply.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+              trigger_prototypes:
+                - uuid: c1fc22bacab141a685a092a139f2d47e
+                  expression: 'last(/Dell Unity REST API/powerSupply.needsReplacement[{#ID}])="true"'
+                  name: 'Power Supply {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: ad85f9e7be7b4c01b70ae89eeb0e02ff
+              name: 'Power Supply {#NAME} Slot Number'
+              type: DEPENDENT
+              key: 'powerSupply.slotNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.slotNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: 540e02c6af044ace947585fa531c5a8c
+              name: 'Power Supply {#NAME} Vendor Part Number'
+              type: DEPENDENT
+              key: 'powerSupply.vendorPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+            - uuid: 265bd3fd5ce0448a959532b981068f30
+              name: 'Power Supply {#NAME} Vendor Serial Number'
+              type: DEPENDENT
+              key: 'powerSupply.vendorSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: powerSupply
+              tags:
+                - tag: component
+                  value: 'power supply'
+          master_item:
+            key: powerSupply
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+        - uuid: 5056c7012d56491ab8d7c917c487d3be
+          name: 'Storage Processor'
+          type: DEPENDENT
+          key: storageProcessor.discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 7741ea5463904220a02034b763a3f65c
+              name: 'Storage Processor {#NAME} Bios Firmware Revision'
+              type: DEPENDENT
+              key: 'storageProcessor.biosFirmwareRevision[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.biosFirmwareRevision'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+              trigger_prototypes:
+                - uuid: dfb1f1d5023a4c0bb10a1983d74175e0
+                  expression: 'change(/Dell Unity REST API/storageProcessor.biosFirmwareRevision[{#ID}])=1'
+                  name: 'Storage Processor {#NAME} Bios Firmware Version Changed'
+                  priority: INFO
+            - uuid: 853c72e1d2ae46d683fb9d64530056a8
+              name: 'Storage Processor {#NAME} EMC Part Number'
+              type: DEPENDENT
+              key: 'storageProcessor.emcPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: d0337354db7c43828c4c203f891fa298
+              name: 'Storage Processor {#NAME} EMC Serial Number'
+              type: DEPENDENT
+              key: 'storageProcessor.emcSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.emcSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+              trigger_prototypes:
+                - uuid: f7ac8d7303ad4e8c9b410c55a2486d52
+                  expression: 'change(/Dell Unity REST API/storageProcessor.emcSerialNumber[{#ID}])=1'
+                  name: 'Storage Processor {#NAME} EMC Serial Number Changed'
+                  priority: INFO
+            - uuid: 92cde12288824d1fb4186409c2b561d1
+              name: 'Storage Processor {#NAME} Health'
+              type: DEPENDENT
+              key: 'storageProcessor.health[{#ID}]'
+              delay: '0'
+              history: 7d
+              valuemap:
+                name: Health
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')]'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+                - type: JSONPATH
+                  parameters:
+                    - $.content.health.value
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+              trigger_prototypes:
+                - uuid: 2b137f5effc946ae8d4259e0ba7c3dff
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=25'
+                  name: 'Storage Processor {#NAME} Health: Critical Issue'
+                  priority: HIGH
+                - uuid: f3ab5a48f3174371a6491c80da8db709
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=10'
+                  name: 'Storage Processor {#NAME} Health: Degraded'
+                  priority: WARNING
+                - uuid: c17b51455764430bb30ec338944ecadb
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=20'
+                  name: 'Storage Processor {#NAME} Health: Major Issue'
+                  priority: AVERAGE
+                - uuid: 5747826a537347e6af70080df868afae
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=15'
+                  name: 'Storage Processor {#NAME} Health: Minor Issue'
+                  priority: WARNING
+                - uuid: 09c135ab2d6043dabc3384190f58c64b
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=7'
+                  name: 'Storage Processor {#NAME} Health: Minor Warning'
+                  priority: WARNING
+                - uuid: 8843bde334544ef2945a521e8505ecaa
+                  expression: 'last(/Dell Unity REST API/storageProcessor.health[{#ID}])=30'
+                  name: 'Storage Processor {#NAME} Health: Non Recoverable Issue'
+                  priority: HIGH
+            - uuid: d545026b551743dd990aa164fc76f84d
+              name: 'Storage Processor {#NAME} ID'
+              type: DEPENDENT
+              key: 'storageProcessor.id[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.id'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: 8d5f4212de034a25902c6ad81ca86ece
+              name: 'Storage Processor {#NAME} Manufacturer'
+              type: DEPENDENT
+              key: 'storageProcessor.manufacturer[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.manufacturer'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: dd43970a4fa9483fba19c84c69eda0a0
+              name: 'Storage Processor {#NAME} Model Name'
+              type: DEPENDENT
+              key: 'storageProcessor.modelName[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              valuemap:
+                name: 'Storage Processor Model Name'
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.modelName'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: 881703d76f944b51974706761c2c46fb
+              name: 'Storage Processor {#NAME} Model'
+              type: DEPENDENT
+              key: 'storageProcessor.model[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.model'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: 1b787fddab914879b8089ec334cc4ac5
+              name: 'Storage Processor {#NAME} Name'
+              type: DEPENDENT
+              key: 'storageProcessor.name[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.name'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: a3fd029664dc4178876f90b3f54d2fd2
+              name: 'Storage Processor {#NAME} Need Replacement'
+              type: DEPENDENT
+              key: 'storageProcessor.needsReplacement[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.needsReplacement'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+              trigger_prototypes:
+                - uuid: 81645e9e9d884a94b9f8af549f6dc114
+                  expression: 'last(/Dell Unity REST API/storageProcessor.needsReplacement[{#ID}])="true"'
+                  name: 'Storage Processor {#NAME} Replacement Needed'
+                  priority: AVERAGE
+            - uuid: 8c91de790d4e4b6b829b40580aaec001
+              name: 'Storage Processor {#NAME} Vendor Part Number'
+              type: DEPENDENT
+              key: 'storageProcessor.vendorPartNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorPartNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+            - uuid: 64ef93d517064287935cab8a0f11a89a
+              name: 'Storage Processor {#NAME} Vendor Serial Number'
+              type: DEPENDENT
+              key: 'storageProcessor.vendorSerialNumber[{#ID}]'
+              delay: '0'
+              history: 7d
+              trends: '0'
+              value_type: TEXT
+              preprocessing:
+                - type: JSONPATH
+                  parameters:
+                    - '$.entries[?(@.content.id == ''{#ID}'')].content.vendorSerialNumber'
+                - type: JSONPATH
+                  parameters:
+                    - '$[0]'
+              master_item:
+                key: storageProcessor
+              tags:
+                - tag: component
+                  value: storageProcessor
+          master_item:
+            key: storageProcessor
+          lld_macro_paths:
+            - lld_macro: '{#ID}'
+              path: $.content.id
+            - lld_macro: '{#NAME}'
+              path: $.content.name
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.entries
+      macros:
+        - macro: '{$UNITY.FILESYSTEM.USAGE.AVERAGE}'
+          value: '90'
+          description: 'Unity Filesystem Usage Average quota alert'
+        - macro: '{$UNITY.FILESYSTEM.USAGE.HIGH}'
+          value: '95'
+          description: 'Unity Filesystem Usage High quota alert'
+        - macro: '{$UNITY.FILESYSTEM.USAGE.WARNING}'
+          value: '85'
+          description: 'Unity Filesystem Usage Warning quota alert'
+        - macro: '{$UNITY.HOSTNAME}'
+          description: 'Unity Appliance Hostname or IP'
+        - macro: '{$UNITY.PASSWORD}'
+          description: 'Unity Password with Operator privileges'
+        - macro: '{$UNITY.POOL.USAGE.AVERAGE}'
+          value: '90'
+          description: 'Unity Pool Usage Average quota alert'
+        - macro: '{$UNITY.POOL.USAGE.HIGH}'
+          value: '95'
+          description: 'Unity Pool Usage High quota alert'
+        - macro: '{$UNITY.POOL.USAGE.WARNING}'
+          value: '85'
+          description: 'Unity Pool Usage Warning quota alert'
+        - macro: '{$UNITY.USERNAME}'
+          description: 'Unity User with Operator privileges'
+      valuemaps:
+        - uuid: d67490bd20a1458494b7af92d2ec5c90
+          name: 'CIFS share type'
+          mappings:
+            - value: '1'
+              newvalue: Cifs_Share
+            - value: '2'
+              newvalue: Cifs_Snapshot
+        - uuid: 5ca837449a57413d841494ac539b5cba
+          name: 'Disk Technology'
+          mappings:
+            - value: '1'
+              newvalue: SAS
+            - value: '2'
+              newvalue: NL_SAS
+            - value: '6'
+              newvalue: SAS_FLASH_2
+            - value: '7'
+              newvalue: SAS_FLASH_3
+            - value: '8'
+              newvalue: SAS_FLASH_4
+            - value: '9'
+              newvalue: SAS_FLASH_5
+            - value: '50'
+              newvalue: Mixed
+            - value: '99'
+              newvalue: Virtual
+        - uuid: 13329447e3b343f5a5a0c4fb97add9cd
+          name: 'Disk Tier Type'
+          mappings:
+            - value: '0'
+              newvalue: None
+            - value: '10'
+              newvalue: Extreme_Performance
+            - value: '20'
+              newvalue: Performance
+            - value: '30'
+              newvalue: Capacity
+        - uuid: bca4c8921ba94e7b912b56aec38aa9fc
+          name: 'Filesystem Format'
+          mappings:
+            - value: '0'
+              newvalue: UFS32
+            - value: '2'
+              newvalue: UFS64
+        - uuid: b3bdb15f29394dd8b49235933a1d3d8a
+          name: 'Filesystem Type'
+          mappings:
+            - value: '1'
+              newvalue: FileSystem
+            - value: '2'
+              newvalue: VMware
+        - uuid: a46ef9272f494c62b8ee71abd784b4a4
+          name: Health
+          mappings:
+            - value: '0'
+              newvalue: UNKNOWN
+            - value: '5'
+              newvalue: OK
+            - value: '7'
+              newvalue: OK_BUT
+            - value: '10'
+              newvalue: DEGRADED
+            - value: '15'
+              newvalue: MINOR
+            - value: '20'
+              newvalue: MAJOR
+            - value: '25'
+              newvalue: CRITICAL
+            - value: '30'
+              newvalue: NON_RECOVERABLE
+        - uuid: 104af35aa0434fce8b15d36e47890ac9
+          name: 'Interface Connector Type'
+          mappings:
+            - value: '0'
+              newvalue: Unknown
+            - value: '1'
+              newvalue: RJ45
+            - value: '2'
+              newvalue: LC
+            - value: '3'
+              newvalue: MiniSAS_HD
+            - value: '4'
+              newvalue: Copper_Pigtail
+            - value: '5'
+              newvalue: No_Separable_Connector
+            - value: '6'
+              newvalue: NAS_Copper
+            - value: '7'
+              newvalue: Not_Present
+        - uuid: d1561644100f4d3cb7c122610a1b4b8d
+          name: 'Pool Raid Type'
+          mappings:
+            - value: '0'
+              newvalue: None
+            - value: '1'
+              newvalue: RAID5
+            - value: '2'
+              newvalue: RAID0
+            - value: '3'
+              newvalue: RAID1
+            - value: '4'
+              newvalue: RAID3
+            - value: '7'
+              newvalue: RAID10
+            - value: '10'
+              newvalue: RAID6
+            - value: '12'
+              newvalue: Mixed
+        - uuid: 7c218f342f80469893b8ccbe7fbbccd1
+          name: 'Pool Type'
+          mappings:
+            - value: '1'
+              newvalue: Traditional
+            - value: '2'
+              newvalue: Dynamic
+        - uuid: 557db36c42b24378a09e151b6eccaf91
+          name: 'Storage Processor Model Name'
+          mappings:
+            - value: '1'
+              newvalue: SP300
+            - value: '2'
+              newvalue: SP400
+            - value: '3'
+              newvalue: SP500
+            - value: '4'
+              newvalue: SP600
+            - value: '5'
+              newvalue: SP350
+            - value: '6'
+              newvalue: SP450
+            - value: '7'
+              newvalue: SP550
+            - value: '8'
+              newvalue: SP650
+            - value: '9'
+              newvalue: VSA2Core
+            - value: '10'
+              newvalue: VSA12Core
+            - value: '11'
+              newvalue: SP380
+            - value: '12'
+              newvalue: SP480
+            - value: '13'
+              newvalue: SP680
+            - value: '14'
+              newvalue: SP880
