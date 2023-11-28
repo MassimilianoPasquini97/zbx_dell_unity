@@ -1,0 +1,27 @@
+---
+name: Bug Report
+about: Report Bug
+title: "[BUG] Title"
+labels: bug
+assignees: MassimilianoPasquini97
+
+---
+
+## Checklist
+
+- [ ] I'm using the latest Zabbix Server Release.
+- [ ] I have configured the template following README.md instruction.
+
+## Describe the Bug
+
+A clear and concise description of what the bug is. If applicable, add screenshots to help explain your problem.
+
+## MACROS
+
+Screenshot of configured MACROS.
+
+## Context
+
+- Zabbix Template Release: `ex. main`
+- Zabbix Server Release: `ex. 6.4.7`
+- Dell Unity Version: `ex. 5.3.0.0`
